@@ -11,7 +11,6 @@ export default function Footer() {
 
 const StyledFooter = styled.footer`
     width: 100%;
-    height: 100px;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     display: flex;
