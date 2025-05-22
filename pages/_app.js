@@ -1,14 +1,13 @@
 import GlobalStyle from "../styles";
-import Head from "next/head";
+import Layout from "../components/Layout/index";
 
 export default function App({ Component, pageProps }) {
-  return (
-    <>
-      <GlobalStyle />
-      <Head>
-        <title>MyTemplate</title>
-      </Head>
-      <Component {...pageProps} />
-    </>
-  );
+    return (
+        <>
+            <GlobalStyle />
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        </>
+    );
 }

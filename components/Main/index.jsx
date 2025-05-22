@@ -1,11 +1,10 @@
-import React from 'react'
 import styled from 'styled-components'
 
 export default function Main() {
   return (
     <StyledMain>
         <h2>Main</h2>
-    </StyledMain> 
+    </StyledMain>
   )
 }
 
