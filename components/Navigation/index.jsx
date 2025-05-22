@@ -10,51 +10,51 @@ export default function Navigation() {
     return (
         <StyledNav>
             <StyledNavList>
-                <NavItem>
-                    <NavButton
+                <StyledNavItem>
+                    <StyledNavButton
                         onClick={() => {
                             setActive("settings");
                             router.push("/settingsTemp");
                         }}
                     >
-                        <NavIcon
+                        <StyledNavIcon
                             src={active === "settings" ? "/assets/icons/iconSettingsOn.svg" : "/assets/icons/iconSettings.svg"}
                             alt="settings icon"
                             width={32}
                             height={32}
                         />
-                    </NavButton>
-                </NavItem>
-                <NavItem>
-                    <NavButton
+                    </StyledNavButton>
+                </StyledNavItem>
+                <StyledNavItem>
+                    <StyledNavButton
                         onClick={() => {
                             setActive("home");
                             router.push("/");
                         }}
                     >
-                        <NavIcon
+                        <StyledNavIcon
                             src={active === "home" ? "/assets/icons/iconHomeOn.svg" : "/assets/icons/iconHome.svg"}
                             alt="home icon"
                             width={32}
                             height={32}
                         />
-                    </NavButton>
-                </NavItem>
-                <NavItem>
-                    <NavButton
+                    </StyledNavButton>
+                </StyledNavItem>
+                <StyledNavItem>
+                    <StyledNavButton
                         onClick={() => {
                             setActive("light");
                             router.push("/light");
                         }}
                     >
-                        <NavIcon
+                        <StyledNavIcon
                             src={active === "light" ? "/assets/icons/iconLightOn.svg" : "/assets/icons/iconLight.svg"}
                             alt="light icon"
                             width={32}
                             height={32}
                         />
-                    </NavButton>
-                </NavItem>
+                    </StyledNavButton>
+                </StyledNavItem>
             </StyledNavList>
         </StyledNav>
     );
@@ -72,7 +72,7 @@ const StyledNavList = styled.ul`
     margin: 0;
 `;
 
-const NavItem = styled.li`
+const StyledNavItem = styled.li`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,7 +87,7 @@ const NavItem = styled.li`
     }
 `;
 
-const NavButton = styled.button`
+const StyledNavButton = styled.button`
     display: flex;
     align-items: center;
     background-color: transparent;
@@ -96,7 +96,7 @@ const NavButton = styled.button`
     margin: 0;
 `;
 
-const NavIcon = styled(Image)`
+const StyledNavIcon = styled(Image)`
     width: 2rem;
     height: 2rem;
 `;
