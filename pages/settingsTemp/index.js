@@ -1,5 +1,6 @@
-import React from "react";
+import SetpointDisplay from '../../components/SetpointDisplay';
+
 
 export default function SettingsTemp() {
-    return <div>index</div>;
+    return <div><SetpointDisplay/></div>;
 }
