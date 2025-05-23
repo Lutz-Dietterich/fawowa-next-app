@@ -1,17 +1,15 @@
-import SetpointDisplay from "../../components/SetpointDisplay";
-import GaugeButton from "../../components/buttons/GaugeButton";
-import TempButton from "../../components/buttons/TempButton";
-import HumButton from '../../components/buttons/HumButton';
+
+
+
+import SettingsCard from '../../components/SettingsCard';
 
 export default function SettingsTemp() {
     const value = 25;
     return (
         <div>
-            <SetpointDisplay isTemp={0} value={value} />
-            <GaugeButton text={"-"} />
-            <GaugeButton text={"+"} />
-            <TempButton initialOn={0} />
-            <HumButton initialOn={1} />
+          
+
+            <SettingsCard />
 
         </div>
     );
