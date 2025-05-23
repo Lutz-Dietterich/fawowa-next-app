@@ -9,7 +9,7 @@ export default function SettingsTemp() {
             <SetpointDisplay isTemp={0} value={value} />
             <GaugeButton text={"-"} />
             <GaugeButton text={"+"} />
-            <TempButton on={1} />
+            <TempButton initialOn={0} />
         </div>
     );
 }
