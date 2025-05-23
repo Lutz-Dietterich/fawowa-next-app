@@ -10,7 +10,7 @@ export default function Footer() {
 }
 
 const StyledFooter = styled.footer`
-    width: 100%;
+    width: 100vw;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     display: flex;
@@ -18,4 +18,5 @@ const StyledFooter = styled.footer`
     align-items: center;
     position: fixed;
     bottom: 0;
+    right: 0;
 `;

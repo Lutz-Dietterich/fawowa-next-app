@@ -16,25 +16,17 @@ export default createGlobalStyle`
 
   body {
     margin: 0;
-    font-family: system-ui;
     padding: 0;
-    background-image: url('/img/jay-mantri-TFyi0QOx08c-unsplash.jpg');
+      font-size: 1rem;
+      letter-spacing: 1px;
+      background-image: url('/img/jay-mantri-TFyi0QOx08c-unsplash.jpg');
     background-size: auto;
     background-repeat: no-repeat;
     background-position: center;
     min-height: 100vh;
   }
 
-  @media screen {
-    /* Grundlegende Einstellung */
-    html {
-      box-sizing: border-box;
-    }
-    *,
-    *:before,
-    *:after {
-      box-sizing: inherit;
-    }
+
 
     :root {
       --color-background: linear-gradient(to bottom, #E7E5D0 0%, #375652 50%, #182F37 100%);
@@ -66,14 +58,6 @@ export default createGlobalStyle`
       display: none;
     }
 
-    /* Grundlegende Textgestaltung / Elementselektoren */
-    body {
-      margin: 0;
-      font-family: 'source Sans Pro', Arial, sans-serif;
-      font-size: 1rem;
-      letter-spacing: 1px;
-    }
-
     h1 {
       font-size: 2.5rem;
     }
@@ -86,5 +70,5 @@ export default createGlobalStyle`
     h4 {
       font-size: 1.5rem;
     }
-  }
+
 `;

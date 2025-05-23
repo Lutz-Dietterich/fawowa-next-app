@@ -1,58 +1,51 @@
-// components/SetpointController.jsx
-
-import { useState, useEffect } from "react";
 import styled from "styled-components";
 
-export default function SetpointController({ isTemp = true }) {
+export default function SetpointDisplay({ isTemp = false, value }) {
+    // Minimalwert für den Regler
     const min = 0;
-    const max = isTemp ? 35 : 60;
-    const [value, setValue] = useState(20); // Startwert
+    // Maximalwert abhängig davon, ob Temperatur (35) oder Prozent (100)
+    const max = isTemp ? 35 : 100;
+
+    // Radius des Kreises in der SVG
     const radius = 120;
+    // Gesamtlänge des Kreisumfangs für den Strich (strokeDasharray)
     const dasharray = 725;
+    // Minimaler Offset des Strichs (Startposition für die Anzeige)
     const minOffset = 170;
 
+    // Berechnung des aktuellen strokeDashoffset basierend auf value
+    // Je höher der Wert, desto kleiner der Offset (mehr sichtbarer Strich)
     const calculateOffset = (val) => {
         return dasharray - (val / max) * (dasharray - minOffset);
     };
 
-    const handleMinus = () => {
-        if (value > min) {
-            setValue(value - 1);
-        }
-    };
-
-    const handlePlus = () => {
-        if (value < max) {
-            setValue(value + 1);
-        }
-    };
-
     return (
         <Container>
-            <Controls>
-                <Button onClick={handleMinus}>-</Button>
-                <Input type="number" readOnly value={value} />
-                <Button onClick={handlePlus}>+</Button>
-            </Controls>
+            <StyledValue>
+                {value}
+                <StyledSpan>{isTemp ? "°C" : "%"}</StyledSpan>
+            </StyledValue>
 
-            <Svg viewBox="0 0 300 300">
+            <SVG viewBox="0 0 300 300">
+                {/* Hintergrundkreis, grauer Strich */}
                 <circle
-                    cx="50"
-                    cy="50"
-                    r={radius}
-                    fill="none"
-                    stroke="rgba(11, 12, 13, 1)"
-                    strokeWidth="12"
-                    strokeDasharray={dasharray}
-                    strokeDashoffset={minOffset}
-                    strokeLinecap="round"
-                    
+                    cx="150" // x-Koordinate des Mittelpunkts in SVG (Mitte bei 300x300 ViewBox)
+                    cy="150" // y-Koordinate des Mittelpunkts
+                    r={radius} // Radius des Kreises
+                    fill="none" // Keine Füllung
+                    stroke="rgba(11, 12, 13, 1)" // Farbe des Strichs
+                    strokeWidth="12" // Strichbreite
+                    strokeDasharray={dasharray} // Länge des Strichs für animierten Effekt
+                    strokeDashoffset={minOffset} // Startoffset des Strichs
+                    strokeLinecap="round" // Abrundung der Strichenden
                 />
                 <defs>
-                    <linearGradient id="gradient" x1="25%" y1="25%" x2="50%" y2="50%">
-                        <stop offset="0%" stopColor="rgba(91, 222, 70, 1)" />
+                    {/* Farbverlauf für den Vordergrund-Kreis */}
+                    <linearGradient id="gradient" x1="0%" y1="70%" x2="100%" y2="80%">
+                        <stop offset="0%" stopColor={isTemp ? "#e31616" : "rgba(91, 222, 70, 1)"} />
                         <stop offset="100%" stopColor="rgba(255, 255, 255, 1)" />
                     </linearGradient>
+                    {/* Filter für den Leuchteffekt (Glow) */}
                     <filter id="glow">
                         <feGaussianBlur in="SourceGraphic" stdDeviation="12.5" result="blur" />
                         <feFlood floodColor="rgba(10, 137, 218, 1)" result="color" />
@@ -63,52 +56,68 @@ export default function SetpointController({ isTemp = true }) {
                         </feMerge>
                     </filter>
                 </defs>
+                {/* Vordergrund-Kreis mit Farbverlauf und Leuchteffekt, animiert */}
                 <circle
-                    cx="50"
-                    cy="50"
+                    cx="150"
+                    cy="150"
                     r={radius}
                     fill="none"
-                    stroke="url(#gradient)"
-                    filter="url(#glow)"
+                    stroke="url(#gradient)" // Verwendet den definierten Farbverlauf
+                    filter="url(#glow)" // Leuchteffekt anwenden
                     strokeWidth="12"
                     strokeDasharray={dasharray}
-                    strokeDashoffset={calculateOffset(value)}
+                    strokeDashoffset={calculateOffset(value)} // Offset dynamisch nach Wert berechnet
                     strokeLinecap="round"
                 />
-            </Svg>
+            </SVG>
+            <StyledScaleLabel>
+                <StyledLabelValue>
+                    {min} {isTemp ? "°C" : "%"}
+                </StyledLabelValue>
+                <StyledLabelValue>
+                    {max} {isTemp ? "°C" : "%"}
+                </StyledLabelValue>
+            </StyledScaleLabel>
         </Container>
     );
 }
 
 const Container = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: 300px;
     width: auto;
 `;
 
-const Controls = styled.div`
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
+const StyledValue = styled.span`
+    position: absolute;
+    top: 35%;
+    font-size: 2rem;
+    color: white;
 `;
 
-const Button = styled.button`
-    padding: 0.5rem 1rem;
-    font-size: 1.5rem;
-    cursor: pointer;
+const StyledSpan = styled.span`
+    font-size: 1rem;
 `;
 
-const Input = styled.input`
-    width: 60px;
-    text-align: center;
-    font-size: 1.2rem;
-`;
-
-const Svg = styled.svg`
-    width: 100px;
-    height: 100px;
+const SVG = styled.svg`
+    width: 200px;
+    height: 200px;
+    margin-top: 3rem;
     overflow: visible;
+    transform: rotate(139deg);
+    z-index: 2;
+`;
+
+const StyledScaleLabel = styled.div`
+    display: flex;
+    width: 110%;
+    justify-content: space-between;
+    margin-top: -40px;
+`;
+
+const StyledLabelValue = styled.span`
+    color: aliceblue;
 `;
