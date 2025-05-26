@@ -114,6 +114,7 @@ const SVG = styled.svg`
 const StyledScaleLabel = styled.div`
     display: flex;
     width: 70vw;
+    max-width: 260px;
     justify-content: space-between;
     margin-top: -40px;
 `;

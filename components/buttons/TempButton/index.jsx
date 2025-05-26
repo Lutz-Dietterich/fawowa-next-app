@@ -5,14 +5,12 @@ import Image from "next/image";
 import iconTemp from "/public/assets/icons/iconTemp.svg";
 import iconTempOn from "/public/assets/icons/iconTempOn.svg";
 
-export default function TempButton({ initialOn = true }) {
-    const [isOn, setIsOn] = useState(initialOn);
-
+export default function HumButton({ tempOn, onToggle }) {
     return (
-        <StyledButton onClick={() => setIsOn(!isOn)}>
+        <StyledButton onClick={onToggle}>
             <Image
-                src={isOn ? iconTempOn : iconTemp}
-                alt="Temp Icon"
+                src={tempOn ? iconTempOn : iconTemp}
+                alt="Hum Icon"
                 width={32}
                 height={32}
                 priority
