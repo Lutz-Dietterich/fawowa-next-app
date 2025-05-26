@@ -1,16 +1,10 @@
-
-
-
-import SettingsCard from '../../components/SettingsCard';
+import SettingsCard from "../../components/SettingsCard";
 
 export default function SettingsTemp() {
     const value = 25;
     return (
         <div>
-
-
-            <SettingsCard title={"Temperatur"} type={"hum"} />
-
+            <SettingsCard type={"temp"} />
         </div>
     );
 }

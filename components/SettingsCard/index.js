@@ -6,9 +6,10 @@ import GaugeButton from "../../components/buttons/GaugeButton";
 import TempButton from "../../components/buttons/TempButton";
 import HumButton from "../../components/buttons/HumButton";
 
-export default function SettingsCard({ title, type }) {
+export default function SettingsCard({ type }) {
     const [mode, setMode] = useState(type); // "temp" oder "hum"
-    const value = 25;
+    const valueTemp = 25;
+    const valueHum = 60;
 
     const isTemp = mode === "temp";
     const isHum = mode === "hum";
@@ -16,7 +17,7 @@ export default function SettingsCard({ title, type }) {
     return (
         <StyledContainer>
             <StyledH2>{isTemp ? "Temperatur" : "Luftfeuchigkeit"}</StyledH2>
-            <SetpointDisplay isTemp={isTemp ? 1 : 0} value={value} />
+            <SetpointDisplay isTemp={isTemp ? 1 : 0} value={isTemp ? valueTemp : valueHum} />
             <GaugeButton text="-" />
             <GaugeButton text="+" />
             <TempButton tempOn={isTemp} onToggle={() => setMode("temp")} />
