@@ -18,8 +18,10 @@ export default function SettingsCard({ type }) {
         <StyledContainer>
             <StyledH2>{isTemp ? "Temperatur" : "Luftfeuchigkeit"}</StyledH2>
             <SetpointDisplay isTemp={isTemp ? 1 : 0} value={isTemp ? valueTemp : valueHum} />
-            <GaugeButton text="-" />
-            <GaugeButton text="+" />
+            <StyledGaugeButtonContainer>
+                <GaugeButton text="-" />
+                <GaugeButton text="+" />
+            </StyledGaugeButtonContainer>
             <TempButton tempOn={isTemp} onToggle={() => setMode("temp")} />
             <HumButton humOn={isHum} onToggle={() => setMode("hum")} />
         </StyledContainer>
@@ -27,6 +29,9 @@ export default function SettingsCard({ type }) {
 }
 
 const StyledContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
     width: 80vw;
     max-width: 400px;
     background-color: var(--color-card-background);
@@ -35,7 +40,14 @@ const StyledContainer = styled.div`
 `;
 
 const StyledH2 = styled.h2`
-padding-top: 30px;
+    padding-top: 30px;
     text-align: center;
     color: var(--color-text-light);
 `;
+
+const StyledGaugeButtonContainer = styled.div`
+display: flex;
+justify-content: space-between;
+margin-top: 15px;
+width: 65%;
+`
