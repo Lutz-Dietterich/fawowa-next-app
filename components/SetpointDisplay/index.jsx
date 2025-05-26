@@ -92,6 +92,7 @@ const Container = styled.div`
 
 const StyledValue = styled.span`
     position: absolute;
+    padding-left: 9px;
     top: 45%;
     font-size: 3rem;
     font-weight: lighter;
@@ -103,9 +104,9 @@ const StyledSpan = styled.span`
 `;
 
 const SVG = styled.svg`
-    width: 280px;
-    height: 280px;
-    overflow: visible;
+    width: 100%;
+    max-width: 250px;
+    height: auto;
     transform: rotate(139deg);
     z-index: 2;
 `;

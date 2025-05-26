@@ -22,16 +22,20 @@ export default function SettingsCard({ type }) {
                 <GaugeButton text="-" />
                 <GaugeButton text="+" />
             </StyledGaugeButtonContainer>
-            <TempButton tempOn={isTemp} onToggle={() => setMode("temp")} />
-            <HumButton humOn={isHum} onToggle={() => setMode("hum")} />
+            <StyledSwitchButtonContainer>
+                <StyledTempHumButtonContainer>
+                    <TempButton tempOn={isTemp} onToggle={() => setMode("temp")} />
+                    <HumButton humOn={isHum} onToggle={() => setMode("hum")} />
+                </StyledTempHumButtonContainer>
+            </StyledSwitchButtonContainer>
         </StyledContainer>
     );
 }
 
 const StyledContainer = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 80vw;
     max-width: 400px;
     background-color: var(--color-card-background);
@@ -46,8 +50,21 @@ const StyledH2 = styled.h2`
 `;
 
 const StyledGaugeButtonContainer = styled.div`
-display: flex;
-justify-content: space-between;
-margin-top: 15px;
-width: 65%;
-`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    width: 65%;
+`;
+
+const StyledSwitchButtonContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin-top: 35px;
+    margin-bottom: 15px;
+`;
+
+const StyledTempHumButtonContainer = styled.div`
+    display: flex;
+    gap: 15px;
+`;
