@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export default function GaugeButton({ text }) {
+export default function GaugeButton({ text, onClick }) {
     return (
         <>
-            <StyledButton>{text}</StyledButton>
+            <StyledButton onClick={onClick}>{text}</StyledButton>
         </>
     );
 }

@@ -1,15 +1,17 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-import SetpointDisplay from "../../components/SetpointDisplay";
-import GaugeButton from "../../components/buttons/GaugeButton";
-import TempButton from "../../components/buttons/TempButton";
-import HumButton from "../../components/buttons/HumButton";
+import SetpointDisplay from "../SetpointDisplay";
+import GaugeButton from "../buttons/GaugeButton";
+import TempButton from "../buttons/TempButton";
+import HumButton from "../buttons/HumButton";
 
 export default function SettingsCard({ type = "temp" }) {
     const [mode, setMode] = useState(type); // "temp" oder "hum"
-    const valueTemp = 25;
-    const valueHum = 60;
+    const [valueTemp, setValueTemp] = useState(25);
+    const [valueHum, setValueHum] = useState(60);
+    /*const valueTemp = 25;*/
+    /*const valueHum = 60;*/
 
     const isTemp = mode === "temp";
     const isHum = mode === "hum";
@@ -19,8 +21,30 @@ export default function SettingsCard({ type = "temp" }) {
             <StyledH2>{isTemp ? "Temperatur" : "Luftfeuchigkeit"}</StyledH2>
             <SetpointDisplay isTemp={isTemp ? 1 : 0} value={isTemp ? valueTemp : valueHum} />
             <StyledGaugeButtonContainer>
-                <GaugeButton text="-" />
-                <GaugeButton text="+" />
+                <GaugeButton
+                    text="-"
+                    onClick={
+                        isTemp
+                            ? () => {
+                                  if (valueTemp > 0) setValueTemp(valueTemp - 1);
+                              }
+                            : () => {
+                                  if (valueHum > 0) setValueHum(valueHum - 1);
+                              }
+                    }
+                />
+                <GaugeButton
+                    text="+"
+                    onClick={
+                        isTemp
+                            ? () => {
+                                  if (valueTemp < 35) setValueTemp(valueTemp + 1);
+                              }
+                            : () => {
+                                  if (valueHum < 100) setValueHum(valueHum + 1);
+                              }
+                    }
+                />
             </StyledGaugeButtonContainer>
             <StyledSwitchButtonContainer>
                 <StyledTempHumButtonContainer>
