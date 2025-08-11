@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 import SettingsCard from "../../components/SettingsCard";
 
-export default function SettingsTemp() {
+export default function Settings() {
     return (
         <StyledContainer>
-            <SettingsCard type={"temp"} />
+            <SettingsCard />
         </StyledContainer>
     );
 }

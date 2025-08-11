@@ -6,7 +6,7 @@ import GaugeButton from "../../components/buttons/GaugeButton";
 import TempButton from "../../components/buttons/TempButton";
 import HumButton from "../../components/buttons/HumButton";
 
-export default function SettingsCard({ type }) {
+export default function SettingsCard({ type = "temp" }) {
     const [mode, setMode] = useState(type); // "temp" oder "hum"
     const valueTemp = 25;
     const valueHum = 60;
