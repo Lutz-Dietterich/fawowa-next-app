@@ -14,7 +14,7 @@ export default function Navigation() {
                     <StyledNavButton
                         onClick={() => {
                             setActive("settings");
-                            router.push("/settingsTemp");
+                            router.push("/settings");
                         }}
                     >
                         <StyledNavIcon
