@@ -87,14 +87,15 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 300px;
     width: auto;
 `;
 
 const StyledValue = styled.span`
     position: absolute;
-    top: 35%;
-    font-size: 2rem;
+    padding-left: 9px;
+    top: 45%;
+    font-size: 3rem;
+    font-weight: lighter;
     color: white;
 `;
 
@@ -103,21 +104,21 @@ const StyledSpan = styled.span`
 `;
 
 const SVG = styled.svg`
-    width: 200px;
-    height: 200px;
-    margin-top: 3rem;
-    overflow: visible;
+    width: 100%;
+    max-width: 250px;
+    height: auto;
     transform: rotate(139deg);
     z-index: 2;
 `;
 
 const StyledScaleLabel = styled.div`
     display: flex;
-    width: 110%;
     justify-content: space-between;
-    margin-top: -40px;
+    width: 70%;
+    max-width: 260px;
+    margin-top: -35px;
 `;
 
 const StyledLabelValue = styled.span`
-    color: aliceblue;
+    color: white;
 `;
