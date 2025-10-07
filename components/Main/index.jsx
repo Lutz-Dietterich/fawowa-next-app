@@ -1,8 +1,21 @@
 import styled, { keyframes } from "styled-components";
 import { useState, useEffect } from "react";
+import { useMqttStore } from "../../store/mqttStore";
 
 export default function Main() {
+    // Zustand Store Selectors
+    const { temperature, humidity, connect, disconnect } = useMqttStore();
+
     const [now, setNow] = useState(null);
+
+    // Connect on mount, disconnect on unmount
+    useEffect(() => {
+        connect();
+
+        return () => {
+            disconnect();
+        };
+    }, [connect, disconnect]);
 
     useEffect(() => {
         setNow(new Date());
@@ -18,6 +31,7 @@ export default function Main() {
         day: "numeric",
         month: "long",
     });
+
     return (
         <StyledMain>
             <StyledHomeCard>
@@ -30,11 +44,11 @@ export default function Main() {
                     <StyledMonitoringArea>
                         <StyledMonitoringText>IN</StyledMonitoringText>
                         <StyledMonitoringMessure>
-                            <span>22</span>
+                            <span>{temperature !== null ? `${temperature.toFixed(1)}` : "--"}</span>
                             <img src="/assets/icons/iconTempLight.svg" alt="C°" />
                         </StyledMonitoringMessure>
                         <StyledMonitoringMessure>
-                            <span>50%</span>
+                            <span>{humidity !== null ? `${humidity.toFixed(1)} %` : "--"}</span>
                             <img src="/assets/icons/iconHumLight.svg" alt="rel" />
                         </StyledMonitoringMessure>
                     </StyledMonitoringArea>

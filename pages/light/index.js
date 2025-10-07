@@ -1,135 +1,23 @@
-import React, { useState, useEffect } from "react";
-import mqtt from "mqtt";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
+import { useMqttStore } from "../../store/mqttStore";
 
 export default function About() {
-    const [isConnected, setIsConnected] = useState(false);
-    const [messages, setMessages] = useState([]);
-    const [messageCount, setMessageCount] = useState(0);
-    const [client, setClient] = useState(null);
+    // Zustand Store Selectors
+    const { isConnected, temperature, humidity, lastUpdate, messages, messageCount, publish, connect, disconnect } = useMqttStore();
 
-    // NEU: States für Sensor-Daten
-    const [temperature, setTemperature] = useState(null);
-    const [humidity, setHumidity] = useState(null);
-    const [lastUpdate, setLastUpdate] = useState(null);
-
+    // Connect on mount, disconnect on unmount
     useEffect(() => {
-        let mqttClient = null;
-        let isConnecting = false;
-
-        const connectMQTT = () => {
-            if (isConnecting || mqttClient) return;
-
-            isConnecting = true;
-
-            // MQTT-Client konfigurieren (ändere IP zu deiner Pi-IP)
-            mqttClient = mqtt.connect("ws://192.168.1.170:9001", {
-                clientId: "react_about_page_" + Math.random().toString(16).substr(2, 8),
-                keepalive: 60,
-                clean: true,
-                connectTimeout: 4000,
-                reconnectPeriod: 1000,
-            });
-
-            mqttClient.on("connect", () => {
-                console.log("MQTT verbunden!");
-                setIsConnected(true);
-                isConnecting = false; 
-
-                // Subscribe mit kleiner Verzögerung um sicherzugehen
-                setTimeout(() => {
-                    if (mqttClient && mqttClient.connected) {
-                        // Subscribe zu allen Topics
-                        mqttClient.subscribe("house/main", (err) => {
-                            if (!err) console.log("Subscribed: house/main");
-                        });
-
-                        // NEU: Subscribe zu Sensor-Topics
-                        mqttClient.subscribe("house/temperature", (err) => {
-                            if (!err) console.log("Subscribed: house/temperature");
-                        });
-
-                        mqttClient.subscribe("house/humidity", (err) => {
-                            if (!err) console.log("Subscribed: house/humidity");
-                        });
-
-                        mqttClient.subscribe("house/led/control", (err) => {
-                            if (!err) console.log("Subscribed: house/led/control");
-                        });
-                    }
-                }, 100);
-            });
-
-            mqttClient.on("disconnect", () => {
-                console.log("MQTT getrennt");
-                setIsConnected(false);
-                isConnecting = false;
-            });
-
-            mqttClient.on("reconnect", () => {
-                console.log("MQTT reconnecting...");
-            });
-
-            mqttClient.on("message", (topic, payload) => {
-                const message = payload.toString();
-
-                // NEU: Sensor-Daten verarbeiten
-                if (topic === "house/temperature") {
-                    setTemperature(parseFloat(message));
-                    setLastUpdate(new Date().toLocaleTimeString());
-                    console.log("Temperatur empfangen:", message);
-                } else if (topic === "house/humidity") {
-                    setHumidity(parseFloat(message));
-                    setLastUpdate(new Date().toLocaleTimeString());
-                    console.log("Luftfeuchtigkeit empfangen:", message);
-                } else {
-                    // Andere Nachrichten wie bisher
-                    const newMessage = {
-                        id: Date.now(),
-                        topic: topic,
-                        message: message,
-                        timestamp: new Date().toLocaleTimeString(),
-                    };
-
-                    setMessageCount((prev) => prev + 1);
-                    setMessages((prev) => [newMessage, ...prev.slice(0, 19)]);
-                }
-            });
-
-            mqttClient.on("error", (error) => {
-                console.error("MQTT Fehler:", error);
-                setIsConnected(false);
-                isConnecting = false;
-            });
-
-            setClient(mqttClient);
-        };
-
-        connectMQTT();
+        connect();
 
         return () => {
-            if (mqttClient) {
-                mqttClient.removeAllListeners();
-                if (mqttClient.connected) {
-                    mqttClient.end(true);
-                }
-                mqttClient = null;
-            }
+            disconnect();
         };
-    }, []);
+    }, [connect, disconnect]);
 
+    // LED Control
     const controlLED = (state) => {
-        if (client && client.connected) {
-            client.publish("house/led/control", state, (err) => {
-                if (err) {
-                    console.error("Publish Fehler:", err);
-                } else {
-                    console.log(`LED ${state} gesendet`);
-                }
-            });
-        } else {
-            console.warn("MQTT Client nicht verbunden");
-        }
+        publish("house/led/control", state);
     };
 
     return (
@@ -142,7 +30,7 @@ export default function About() {
                 {isConnected ? "Mit MQTT-Broker verbunden" : "Nicht verbunden"}
             </StatusBadge>
 
-            {/* NEU: Sensor-Daten Anzeige */}
+            {/* Sensor Data */}
             <SensorGrid>
                 <SensorCard>
                     <SensorIcon>🌡️</SensorIcon>
@@ -166,10 +54,10 @@ export default function About() {
                     <strong>MQTT Topic:</strong> house/main
                 </InfoText>
                 <InfoText>
-                    <strong>Broker IP:</strong> 192.168.1.170:1883
+                    <strong>Broker IP:</strong> 192.168.1.170:9001 (WebSocket)
                 </InfoText>
                 <InfoText>
-                    <strong>Client ID:</strong> ESP8266Client
+                    <strong>Client ID:</strong> Dynamisch generiert
                 </InfoText>
                 <InfoText>
                     <strong>Status:</strong> {isConnected ? "Aktiv - sendet Nachrichten" : "Warte auf Verbindung..."}
@@ -215,7 +103,7 @@ export default function About() {
     );
 }
 
-// Styled Components
+// Styled Components (unverändert)
 const Container = styled.div`
     padding: 2rem;
     max-width: 800px;
@@ -250,7 +138,6 @@ const StatusDot = styled.div`
     background-color: ${(props) => (props.connected ? "#38a169" : "#e53e3e")};
 `;
 
-// NEU: Styled Components für Sensor-Anzeige
 const SensorGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
